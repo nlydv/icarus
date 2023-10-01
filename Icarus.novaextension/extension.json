@@ -78,6 +78,19 @@
             "type": "path",
             "placeholder": "sourcekit-lsp",
             "description": "By default, SourceKit-LSP will be located within your chosen toolchain."
+        },
+        {
+            "key": "icarus.language-server-logLevel",
+            "title": "Languge Server Log Level",
+            "type": "enum",
+            "description": "The minimum severity level of logs written to the extension console by the language server.",
+            "values": [
+                ["error", "Error"],
+                ["warning", "Warning"],
+                ["info", "Info"],
+                ["verbose", "Verbose"]
+            ],
+            "default": "warning"
         }
     ],
     

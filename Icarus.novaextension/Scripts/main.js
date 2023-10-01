@@ -137,6 +137,18 @@ function lldbFrameworkPaths() {
     return frameworkPaths;
 }
 
+function logLevelArgs(level) {
+    const sourceKit = level === "verbose"
+        ? "debug"
+        : level;
+    
+    const clang = level === "warning"
+        ? "error"
+        : level;
+    
+    return [ "--log-level", sourceKit, "-Xclangd", `--log=${clang}` ];
+}
+
 nova.commands.register("icarus.resolveLLDBPlatforms", (workspace) => {
     return new Promise((resolve, reject) => {
         let adapterPath = debugAdapterPath();
@@ -237,6 +249,7 @@ class IcarusLanguageServer {
         
         let toolchain = nova.config.get('icarus.toolchain');
         let toolchainPath = nova.config.get('icarus.toolchain-path');
+        let logLevel = nova.config.get('icarus.language-server-logLevel');
         
         let path = nova.config.get('icarus.language-server-path');
         let args = [];
@@ -257,6 +270,8 @@ class IcarusLanguageServer {
                 args.push('sourcekit-lsp');
             }
         }
+        
+        args.push(...logLevelArgs(logLevel));
         
         if (toolchainPath) {
             env['SOURCEKIT_TOOLCHAIN_PATH'] = toolchainPath;
