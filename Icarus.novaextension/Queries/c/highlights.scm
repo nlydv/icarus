@@ -64,7 +64,7 @@
 
 (null) @value.null
 (number_literal) @value.number
-(char_literal) @value.number
+(char_literal) @value.entity
 [
   (true)
   (false)
@@ -78,11 +78,23 @@
     field: (field_identifier) @identifier.function))
 (function_declarator
   declarator: (identifier) @identifier.function)
+(parameter_declaration (identifier) @identifier.argument)
+(parameter_declaration
+    (_ declarator: (identifier)? @identifier.argument
+        (_ declarator: (identifier)? @identifier.argument
+            (_ declarator: (identifier)? @identifier.argument)?
+        )?
+    )
+)
 
 (statement_identifier) @identifier.label
 (type_identifier) @identifier.type
 (primitive_type) @identifier.type
 (sized_type_specifier) @identifier.type
+(field_identifier) @identifier.property
+((identifier) @identifier.constant
+    (#match? @identifier.constant "^[A-Z0-9_-]+[A-Z]+[A-Z0-9]*$")
+)
 
 ; Declarations
 
